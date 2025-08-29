@@ -1,16 +1,150 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>P2P Profit Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 1rem;
+      background-color: #f4f4f4;
+      margin: 0;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    input[type="file"], select, button {
+      display: block;
+      margin: 15px auto;
+      padding: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      max-width: 300px;
+      width: 90%;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="file"]:hover,
+    select:hover,
+    button:hover {
+      border-color: #007BFF;
+    }
+
+    .summary {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 6px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    #output {
+      white-space: pre-line;
+      word-wrap: break-word;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #222;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      min-width: 300px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    #totalProfitDisplay {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .summary {
+        padding: 15px;
+        margin: 10px 5px;
+      }
+
+      #output {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        font-size: 0.85rem;
+        padding: 6px 8px;
+      }
+    }
+  </style>
 </head>
 <body>
   <h2>P2P Profit Calculator</h2>
+
   <input type="file" id="fileInput" accept=".csv" />
-  <pre id="output"></pre>
+  <select id="filter">
+    <option value="all">Показать всё</option>
+    <option value="today">Сегодня</option>
+    <option value="7days">Последние 7 дней</option>
+    <option value="month">Этот месяц</option>
+  </select>
+  <button onclick="resetStats()">Сбросить статистику</button>
+
+  <div class="summary">
+    <div id="output">Загрузите CSV-файл с вашими сделками для расчёта прибыли.</div>
+  </div>
+
+  <div class="summary table-wrapper">
+    <h3>Прибыль по дням</h3>
+    <table id="dailyTable">
+      <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Прибыль (грн)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p id="totalProfitDisplay">Общая прибыль: 0 грн</p>
+  </div>
 
   <script>
     document.getElementById('fileInput').addEventListener('change', handleFile);
+    document.getElementById('filter').addEventListener('change', updateDailyTable);
 
     function handleFile(event) {
       const file = event.target.files[0];
@@ -32,16 +166,23 @@
       const header = rows[0];
       const data = rows.slice(1).filter(r => r.length === header.length);
 
-      // Упрощённая функция для поиска индексов по имени
       const idx = name => header.findIndex(h => h.toLowerCase() === name.toLowerCase());
 
       const orderTypeIdx = idx("Order Type");
       const priceIdx = idx("Price");
       const quantityIdx = idx("Quantity");
       const statusIdx = idx("Status");
+      const dateIdx = idx("Match time(UTC)");
+
+      if ([orderTypeIdx, priceIdx, quantityIdx, statusIdx, dateIdx].includes(-1)) {
+        alert("Ошибка: В CSV отсутствуют необходимые колонки.");
+        return;
+      }
 
       let totalBuyUSDT = 0, totalBuyUAH = 0;
       let totalSellUSDT = 0, totalSellUAH = 0;
+
+      const dailyProfit = {};
 
       data.forEach(row => {
         if (row[statusIdx] !== "Completed") return;
@@ -49,21 +190,27 @@
         const type = row[orderTypeIdx];
         const price = parseFloat(row[priceIdx]);
         const qty = parseFloat(row[quantityIdx]);
+        const date = row[dateIdx].slice(0, 10); // 'YYYY-MM-DD'
 
-        if (!isFinite(price) || !isFinite(qty)) return;
+        if (!isFinite(price) || !isFinite(qty) || !date) return;
+
+        if (!dailyProfit[date]) dailyProfit[date] = { buyUah: 0, buyQty: 0, sellUah: 0, sellQty: 0 };
 
         if (type === "Buy") {
           totalBuyUSDT += qty;
           totalBuyUAH += qty * price;
+          dailyProfit[date].buyUah += qty * price;
+          dailyProfit[date].buyQty += qty;
         } else if (type === "Sell") {
           totalSellUSDT += qty;
           totalSellUAH += qty * price;
+          dailyProfit[date].sellUah += qty * price;
+          dailyProfit[date].sellQty += qty;
         }
       });
 
       const avgBuyRate = totalBuyUSDT ? totalBuyUAH / totalBuyUSDT : 0;
       const avgSellRate = totalSellUSDT ? totalSellUAH / totalSellUSDT : 0;
-
       const circleUSDT = Math.min(totalBuyUSDT, totalSellUSDT);
       const profit = circleUSDT * (avgSellRate - avgBuyRate);
 
@@ -73,10 +220,80 @@
       result += `Средний курс покупки: ${avgBuyRate.toFixed(2)} грн\n`;
       result += `Средний курс продажи: ${avgSellRate.toFixed(2)} грн\n`;
       result += `Объём для полного круга: ${circleUSDT.toFixed(2)} USDT\n`;
-      result += `Прибыль: ${profit.toFixed(2)} грн\n`;
-
+      result += `Общая прибыль: ${profit.toFixed(2)} грн\n`;
       document.getElementById('output').textContent = result;
+
+      updateStoredStats(dailyProfit);
+      updateDailyTable();
     }
+
+    function updateStoredStats(newData) {
+      const stored = JSON.parse(localStorage.getItem("dailyProfit") || "{}");
+
+      for (let date in newData) {
+        const d = newData[date];
+        const commonUSDT = Math.min(d.buyQty, d.sellQty);
+        const avgBuy = d.buyQty ? d.buyUah / d.buyQty : 0;
+        const avgSell = d.sellQty ? d.sellUah / d.sellQty : 0;
+        const profit = commonUSDT * (avgSell - avgBuy);
+
+        stored[date] = (stored[date] || 0) + profit;
+      }
+
+      localStorage.setItem("dailyProfit", JSON.stringify(stored));
+    }
+
+    function updateDailyTable() {
+      const tbody = document.querySelector("#dailyTable tbody");
+      const stored = JSON.parse(localStorage.getItem("dailyProfit") || "{}");
+      const filter = document.getElementById("filter").value;
+
+      tbody.innerHTML = "";
+
+      const today = new Date();
+      const rows = [];
+
+      for (let date in stored) {
+        const profit = stored[date];
+        const d = new Date(date);
+        const daysDiff = (today - d) / (1000 * 60 * 60 * 24);
+
+        if (
+          filter === "today" && d.toDateString() !== today.toDateString() ||
+          filter === "7days" && daysDiff > 7 ||
+          filter === "month" && (d.getMonth() !== today.getMonth() || d.getFullYear() !== today.getFullYear())
+        ) continue;
+
+        rows.push({ date, profit });
+      }
+
+      rows.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      rows.forEach(({ date, profit }) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${formatDate(date)}</td><td>${profit.toFixed(2)}</td>`;
+        tbody.appendChild(row);
+      });
+
+      const total = rows.reduce((sum, r) => sum + r.profit, 0);
+      document.getElementById("totalProfitDisplay").textContent = `Общая прибыль: ${total.toFixed(2)} грн`;
+    }
+
+    function resetStats() {
+      if (confirm("Вы уверены, что хотите сбросить статистику?")) {
+        localStorage.removeItem("dailyProfit");
+        updateDailyTable();
+        document.getElementById("output").textContent = "Статистика сброшена.";
+      }
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString("ru-RU");
+    }
+
+    // Обновим таблицу при загрузке
+    updateDailyTable();
   </script>
 </body>
 </html>
