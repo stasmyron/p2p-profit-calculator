@@ -2,149 +2,223 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>P2P Profit Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>P2P Profit Binance</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
     body {
-      font-family: Arial, sans-serif;
-      padding: 1rem;
-      background-color: #f4f4f4;
-      margin: 0;
+      margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
+      background: #121315;
+      color: #d6b900;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-
-    h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 1rem;
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
     }
-
-    input[type="file"], select, button {
+    header svg {
       display: block;
-      margin: 15px auto;
+      flex-shrink: 0;
+    }
+    header h2 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin: 0;
+      text-shadow: 0 0 6px #d6b900cc;
+    }
+
+    main {
+      width: 95%;
+      max-width: 720px;
+      background: #1e1f22;
+      border-radius: 12px;
+      padding: 20px 25px;
+      box-shadow: 0 0 12px #d6b900aa;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      user-select: none;
+    }
+
+    input[type="file"] {
       padding: 10px;
-      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
       cursor: pointer;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      max-width: 300px;
-      width: 90%;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease;
+      background: #2a2b2f;
+      color: #d6b900;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    input[type="file"]:hover {
+      background: #3e3f43;
     }
 
-    input[type="file"]:hover,
-    select:hover,
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #f0d830;
+    }
+    select, input[type="date"] {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      background: #2a2b2f;
+      color: #d6b900;
+      font-weight: 600;
+      transition: background 0.3s;
+      max-width: 200px;
+      cursor: pointer;
+    }
+    select:hover, input[type="date"]:hover {
+      background: #3e3f43;
+    }
+
+    button {
+      background: #d6b900;
+      border: none;
+      border-radius: 8px;
+      color: #121315;
+      font-weight: 700;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      user-select: none;
+      max-width: 200px;
+      margin-top: 8px;
+      align-self: flex-start;
+    }
     button:hover {
-      border-color: #007BFF;
-    }
-
-    .summary {
-      max-width: 800px;
-      margin: 20px auto;
-      background: #fff;
-      border-radius: 6px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      box-sizing: border-box;
+      background: #f0db30;
     }
 
     #output {
       white-space: pre-line;
-      word-wrap: break-word;
+      background: #121315;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 8px #d6b900cc;
+      min-height: 90px;
+      font-weight: 600;
       font-size: 1rem;
-      line-height: 1.4;
-      color: #222;
-    }
-
-    .table-wrapper {
       overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
-      min-width: 300px;
+      background: #2a2b2f;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #d6b90099;
     }
-
     th, td {
-      border: 1px solid #ddd;
-      padding: 8px 10px;
+      padding: 10px 8px;
       text-align: center;
-      font-size: 0.95rem;
-      color: #444;
+      font-weight: 600;
+      color: #f9f8f0;
+      border-bottom: 1px solid #444548;
     }
-
     th {
-      background-color: #007BFF;
-      color: white;
+      background: #3e3f43;
+      color: #d6b900;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
     }
 
-    #totalProfitDisplay {
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-top: 15px;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 0.5rem;
+    /* Responsive */
+    @media (max-width: 480px) {
+      header h2 {
+        font-size: 1.4rem;
+        text-align: center;
       }
-
-      h2 {
-        font-size: 1.5rem;
-        margin-bottom: 0.8rem;
+      main {
+        padding: 15px 15px;
       }
-
-      .summary {
-        padding: 15px;
-        margin: 10px 5px;
+      table, th, td {
+        font-size: 0.8rem;
       }
-
-      #output {
+      input[type="file"], select, input[type="date"], button {
+        max-width: 100%;
         font-size: 0.9rem;
-      }
-
-      th, td {
-        font-size: 0.85rem;
-        padding: 6px 8px;
       }
     }
   </style>
 </head>
 <body>
-  <h2>P2P Profit Calculator</h2>
+  <header>
+    <svg width="40" height="40" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Binance Logo" role="img">
+      <path fill="#F3BA2F" d="M128 0L256 128L128 256L0 128L128 0Z"/>
+      <path fill="#121315" d="M128 45.333L171.2 88.533L128 131.733L84.8 88.533L128 45.333Z"/>
+      <path fill="#121315" d="M128 124.267L163.733 159L128 193.733L92.267 159L128 124.267Z"/>
+    </svg>
+    <h2>P2P Profit Binance</h2>
+  </header>
 
-  <input type="file" id="fileInput" accept=".csv" />
-  <select id="filter">
-    <option value="all">Показать всё</option>
-    <option value="today">Сегодня</option>
-    <option value="7days">Последние 7 дней</option>
-    <option value="month">Этот месяц</option>
-  </select>
-  <button onclick="resetStats()">Сбросить статистику</button>
+  <main>
+    <input type="file" id="fileInput" accept=".csv" />
+    
+    <div style="display:flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px;">
+      <label for="dateFromInput">С:</label>
+      <input type="date" id="dateFromInput" />
+      
+      <label for="dateToInput">По:</label>
+      <input type="date" id="dateToInput" />
+      
+      <button id="resetBtn" style="margin-left:auto;">Сбросить статистику</button>
+    </div>
+    
+    <pre id="output">Загрузите CSV-файл для анализа.</pre>
+    
+    <div id="totalProfitDisplay" style="font-weight:700; font-size:1.1rem; margin-top: 0.8rem; text-align:center;">
+      Общая прибыль: 0 грн
+    </div>
 
-  <div class="summary">
-    <div id="output">Загрузите CSV-файл с вашими сделками для расчёта прибыли.</div>
-  </div>
+    <div style="margin-top: 20px; overflow-x:auto;">
+      <table id="dailyTable" aria-label="Статистика по дням">
+        <thead>
+          <tr><th>Дата</th><th>Прибыль (грн)</th></tr>
+        </thead>
+        <tbody>
+          <!-- Данные по дням появятся здесь -->
+        </tbody>
+      </table>
+    </div>
 
-  <div class="summary table-wrapper">
-    <h3>Прибыль по дням</h3>
-    <table id="dailyTable">
-      <thead>
-        <tr>
-          <th>Дата</th>
-          <th>Прибыль (грн)</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <p id="totalProfitDisplay">Общая прибыль: 0 грн</p>
-  </div>
+    <pre id="periodSummary" style="margin-top: 1rem; font-weight:600; white-space: pre-line;">
+Выберите период для просмотра статистики.
+    </pre>
+  </main>
 
   <script>
-    document.getElementById('fileInput').addEventListener('change', handleFile);
-    document.getElementById('filter').addEventListener('change', updateDailyTable);
+    const fileInput = document.getElementById("fileInput");
+    const dateFromInput = document.getElementById("dateFromInput");
+    const dateToInput = document.getElementById("dateToInput");
+    const output = document.getElementById("output");
+    const dailyTableBody = document.querySelector("#dailyTable tbody");
+    const periodSummary = document.getElementById("periodSummary");
+    const totalProfitDisplay = document.getElementById("totalProfitDisplay");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let dailyProfit = {};
+
+    fileInput.addEventListener("change", handleFile);
+    dateFromInput.addEventListener("change", updateFilteredView);
+    dateToInput.addEventListener("change", updateFilteredView);
+    resetBtn.addEventListener("click", resetStats);
 
     function handleFile(event) {
       const file = event.target.files[0];
@@ -153,150 +227,147 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         const text = e.target.result;
-        calculateProfit(text);
+        processCSV(text);
       };
       reader.readAsText(file);
     }
 
-    function calculateProfit(csvText) {
-      const rows = csvText
-        .split(/\r?\n/)
-        .map(r => r.split(',').map(cell => cell.trim().replace(/"/g, '')));
-      
-      const header = rows[0];
+    function processCSV(csvText) {
+      const rows = csvText.trim().split(/\r?\n/).map(r => r.split(','));
+      const header = rows[0].map(h => h.trim());
       const data = rows.slice(1).filter(r => r.length === header.length);
 
-      const idx = name => header.findIndex(h => h.toLowerCase() === name.toLowerCase());
+      // Определяем индекс нужных колонок, с учётом вариаций
+      const orderTypeIdx = header.indexOf("Order Type");
+      const priceIdx = header.indexOf("Price");
+      const quantityIdx = header.indexOf("Quantity");
+      let dateIdx = header.indexOf("Match time(UTC)");
+      if (dateIdx === -1) dateIdx = header.indexOf("Created Time");
+      const statusIdx = header.indexOf("Status");
 
-      const orderTypeIdx = idx("Order Type");
-      const priceIdx = idx("Price");
-      const quantityIdx = idx("Quantity");
-      const statusIdx = idx("Status");
-      
-      // Новое: пытаемся найти колонку даты по двум вариантам
-      let dateIdx = idx("Match time(UTC)");
-      if (dateIdx === -1) dateIdx = idx("Created Time");
-
-      if ([orderTypeIdx, priceIdx, quantityIdx, statusIdx].includes(-1) || dateIdx === -1) {
-        alert("Ошибка: В CSV отсутствуют необходимые колонки. Нужно обязательно иметь 'Order Type', 'Price', 'Quantity', 'Status' и 'Match time(UTC)' или 'Created Time'.");
+      if ([orderTypeIdx, priceIdx, quantityIdx, dateIdx, statusIdx].some(i => i === -1)) {
+        output.textContent = "Ошибка: не найдены необходимые колонки в CSV.";
         return;
       }
 
-      let totalBuyUSDT = 0, totalBuyUAH = 0;
-      let totalSellUSDT = 0, totalSellUAH = 0;
+      // Обрабатываем и аккумулируем по дням
+      for (const row of data) {
+        if (row[statusIdx].trim() !== "Completed") continue;
 
-      const dailyProfit = {};
-
-      data.forEach(row => {
-        if (row[statusIdx] !== "Completed") return;
-
-        const type = row[orderTypeIdx];
+        const type = row[orderTypeIdx].trim();
         const price = parseFloat(row[priceIdx]);
         const qty = parseFloat(row[quantityIdx]);
-        const date = row[dateIdx].slice(0, 10); // 'YYYY-MM-DD'
+        let dateStr = row[dateIdx].trim();
 
-        if (!isFinite(price) || !isFinite(qty) || !date) return;
+        // Обработка даты: отрезаем время, оставляем только дату в формате YYYY-MM-DD
+        if (dateStr.length > 10) dateStr = dateStr.substring(0, 10);
 
-        if (!dailyProfit[date]) dailyProfit[date] = { buyUah: 0, buyQty: 0, sellUah: 0, sellQty: 0 };
+        if (!dailyProfit[dateStr]) {
+          dailyProfit[dateStr] = {
+            buyUah: 0,
+            buyQty: 0,
+            sellUah: 0,
+            sellQty: 0,
+          };
+        }
 
         if (type === "Buy") {
-          totalBuyUSDT += qty;
-          totalBuyUAH += qty * price;
-          dailyProfit[date].buyUah += qty * price;
-          dailyProfit[date].buyQty += qty;
+          dailyProfit[dateStr].buyQty += qty;
+          dailyProfit[dateStr].buyUah += qty * price;
         } else if (type === "Sell") {
-          totalSellUSDT += qty;
-          totalSellUAH += qty * price;
-          dailyProfit[date].sellUah += qty * price;
-          dailyProfit[date].sellQty += qty;
+          dailyProfit[dateStr].sellQty += qty;
+          dailyProfit[dateStr].sellUah += qty * price;
         }
-      });
-
-      const avgBuyRate = totalBuyUSDT ? totalBuyUAH / totalBuyUSDT : 0;
-      const avgSellRate = totalSellUSDT ? totalSellUAH / totalSellUSDT : 0;
-      const circleUSDT = Math.min(totalBuyUSDT, totalSellUSDT);
-      const profit = circleUSDT * (avgSellRate - avgBuyRate);
-
-      let result = "";
-      result += `Куплено USDT: ${totalBuyUSDT.toFixed(2)}\n`;
-      result += `Продано USDT: ${totalSellUSDT.toFixed(2)}\n`;
-      result += `Средний курс покупки: ${avgBuyRate.toFixed(2)} грн\n`;
-      result += `Средний курс продажи: ${avgSellRate.toFixed(2)} грн\n`;
-      result += `Объём для полного круга: ${circleUSDT.toFixed(2)} USDT\n`;
-      result += `Общая прибыль: ${profit.toFixed(2)} грн\n`;
-      document.getElementById('output').textContent = result;
-
-      updateStoredStats(dailyProfit);
-      updateDailyTable();
-    }
-
-    function updateStoredStats(newData) {
-      const stored = JSON.parse(localStorage.getItem("dailyProfit") || "{}");
-
-      for (let date in newData) {
-        const d = newData[date];
-        const commonUSDT = Math.min(d.buyQty, d.sellQty);
-        const avgBuy = d.buyQty ? d.buyUah / d.buyQty : 0;
-        const avgSell = d.sellQty ? d.sellUah / d.sellQty : 0;
-        const profit = commonUSDT * (avgSell - avgBuy);
-
-        stored[date] = (stored[date] || 0) + profit;
       }
 
-      localStorage.setItem("dailyProfit", JSON.stringify(stored));
+      // Сохраняем в localStorage
+      localStorage.setItem("dailyProfit", JSON.stringify(dailyProfit));
+      output.textContent = "Файл успешно обработан.";
+      updateFilteredView();
     }
 
-    function updateDailyTable() {
-      const tbody = document.querySelector("#dailyTable tbody");
-      const stored = JSON.parse(localStorage.getItem("dailyProfit") || "{}");
-      const filter = document.getElementById("filter").value;
+    function updateFilteredView() {
+      dailyTableBody.innerHTML = "";
+      periodSummary.textContent = "Загрузка...";
+      
+      const from = dateFromInput.value || "0000-00-00";
+      const to = dateToInput.value || "9999-99-99";
 
-      tbody.innerHTML = "";
+      const filteredDates = Object.keys(dailyProfit)
+        .filter(d => d >= from && d <= to)
+        .sort();
 
-      const today = new Date();
-      const rows = [];
+      let totalBuyUah = 0, totalBuyQty = 0, totalSellUah = 0, totalSellQty = 0;
+      let totalProfit = 0;
 
-      for (let date in stored) {
-        const profit = stored[date];
-        const d = new Date(date);
-        const daysDiff = (today - d) / (1000 * 60 * 60 * 24);
+      filteredDates.forEach(date => {
+        const day = dailyProfit[date];
+        const avgBuyRate = day.buyQty ? day.buyUah / day.buyQty : 0;
+        const avgSellRate = day.sellQty ? day.sellUah / day.sellQty : 0;
+        const circleQty = Math.min(day.buyQty, day.sellQty);
+        const profit = circleQty * (avgSellRate - avgBuyRate);
 
-        if (
-          (filter === "today" && d.toDateString() !== today.toDateString()) ||
-          (filter === "7days" && daysDiff > 7) ||
-          (filter === "month" && (d.getMonth() !== today.getMonth() || d.getFullYear() !== today.getFullYear()))
-        ) continue;
+        totalBuyUah += day.buyUah;
+        totalBuyQty += day.buyQty;
+        totalSellUah += day.sellUah;
+        totalSellQty += day.sellQty;
+        totalProfit += profit;
 
-        rows.push({ date, profit });
-      }
-
-      rows.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-      rows.forEach(({ date, profit }) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${formatDate(date)}</td><td>${profit.toFixed(2)}</td>`;
-        tbody.appendChild(row);
+        const tr = document.createElement("tr");
+        const tdDate = document.createElement("td");
+        tdDate.textContent = date;
+        const tdProfit = document.createElement("td");
+        tdProfit.textContent = profit.toFixed(2);
+        tr.appendChild(tdDate);
+        tr.appendChild(tdProfit);
+        dailyTableBody.appendChild(tr);
       });
 
-      const total = rows.reduce((sum, r) => sum + r.profit, 0);
-      document.getElementById("totalProfitDisplay").textContent = `Общая прибыль: ${total.toFixed(2)} грн`;
+      const avgBuyRateTotal = totalBuyQty ? totalBuyUah / totalBuyQty : 0;
+      const avgSellRateTotal = totalSellQty ? totalSellUah / totalSellQty : 0;
+      const circleTotal = Math.min(totalBuyQty, totalSellQty);
+
+      const periodText = 
+        `Куплено USDT: ${totalBuyQty.toFixed(2)}\n` +
+        `Продано USDT: ${totalSellQty.toFixed(2)}\n` +
+        `Средний курс покупки: ${avgBuyRateTotal.toFixed(2)} грн\n` +
+        `Средний курс продажи: ${avgSellRateTotal.toFixed(2)} грн\n` +
+        `Объём для полного круга: ${circleTotal.toFixed(2)} USDT\n` +
+        `Прибыль за период: ${totalProfit.toFixed(2)} грн`;
+
+      periodSummary.textContent = periodText;
+      totalProfitDisplay.textContent = `Общая прибыль: ${totalProfit.toFixed(2)} грн`;
+
+      output.textContent = `Обработка завершена. Выбран период с ${from} по ${to}.`;
     }
 
     function resetStats() {
-      if (confirm("Вы уверены, что хотите сбросить статистику?")) {
+      if (confirm("Вы уверены, что хотите сбросить всю статистику?")) {
+        dailyProfit = {};
         localStorage.removeItem("dailyProfit");
-        updateDailyTable();
-        document.getElementById("output").textContent = "Статистика сброшена.";
+        dailyTableBody.innerHTML = "";
+        periodSummary.textContent = "Выберите период для просмотра статистики.";
+        totalProfitDisplay.textContent = "Общая прибыль: 0 грн";
+        output.textContent = "Статистика сброшена. Загрузите CSV-файл.";
+        dateFromInput.value = "";
+        dateToInput.value = "";
+        fileInput.value = "";
       }
     }
 
-    function formatDate(dateStr) {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString("ru-RU");
-    }
-
-    // Обновим таблицу при загрузке
-    updateDailyTable();
+    // Загрузка данных из localStorage при загрузке страницы (если есть)
+    window.addEventListener('load', () => {
+      const saved = localStorage.getItem("dailyProfit");
+      if (saved) {
+        dailyProfit = JSON.parse(saved);
+        const dates = Object.keys(dailyProfit).sort();
+        if (dates.length > 0) {
+          dateFromInput.value = dates[0];
+          dateToInput.value = dates[dates.length - 1];
+          updateFilteredView();
+        }
+      }
+    });
   </script>
 </body>
 </html>
