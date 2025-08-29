@@ -172,10 +172,13 @@
       const priceIdx = idx("Price");
       const quantityIdx = idx("Quantity");
       const statusIdx = idx("Status");
-      const dateIdx = idx("Match time(UTC)");
+      
+      // Новое: пытаемся найти колонку даты по двум вариантам
+      let dateIdx = idx("Match time(UTC)");
+      if (dateIdx === -1) dateIdx = idx("Created Time");
 
-      if ([orderTypeIdx, priceIdx, quantityIdx, statusIdx, dateIdx].includes(-1)) {
-        alert("Ошибка: В CSV отсутствуют необходимые колонки.");
+      if ([orderTypeIdx, priceIdx, quantityIdx, statusIdx].includes(-1) || dateIdx === -1) {
+        alert("Ошибка: В CSV отсутствуют необходимые колонки. Нужно обязательно иметь 'Order Type', 'Price', 'Quantity', 'Status' и 'Match time(UTC)' или 'Created Time'.");
         return;
       }
 
@@ -259,9 +262,9 @@
         const daysDiff = (today - d) / (1000 * 60 * 60 * 24);
 
         if (
-          filter === "today" && d.toDateString() !== today.toDateString() ||
-          filter === "7days" && daysDiff > 7 ||
-          filter === "month" && (d.getMonth() !== today.getMonth() || d.getFullYear() !== today.getFullYear())
+          (filter === "today" && d.toDateString() !== today.toDateString()) ||
+          (filter === "7days" && daysDiff > 7) ||
+          (filter === "month" && (d.getMonth() !== today.getMonth() || d.getFullYear() !== today.getFullYear()))
         ) continue;
 
         rows.push({ date, profit });
