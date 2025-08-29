@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>P2P Profit Calculator</title>
+</head>
+<body>
+  <h2>P2P Profit Calculator</h2>
+  <input type="file" id="fileInput" accept=".csv" />
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', handleFile);
+
+    function handleFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        calculateProfit(text);
+      };
+      reader.readAsText(file);
+    }
+
+    function calculateProfit(csvText) {
+      const rows = csvText
+        .split(/\r?\n/)
+        .map(r => r.split(',').map(cell => cell.trim().replace(/"/g, '')));
+      
+      const header = rows[0];
+      const data = rows.slice(1).filter(r => r.length === header.length);
+
+      // Упрощённая функция для поиска индексов по имени
+      const idx = name => header.findIndex(h => h.toLowerCase() === name.toLowerCase());
+
+      const orderTypeIdx = idx("Order Type");
+      const priceIdx = idx("Price");
+      const quantityIdx = idx("Quantity");
+      const statusIdx = idx("Status");
+
+      let totalBuyUSDT = 0, totalBuyUAH = 0;
+      let totalSellUSDT = 0, totalSellUAH = 0;
+
+      data.forEach(row => {
+        if (row[statusIdx] !== "Completed") return;
+
+        const type = row[orderTypeIdx];
+        const price = parseFloat(row[priceIdx]);
+        const qty = parseFloat(row[quantityIdx]);
+
+        if (!isFinite(price) || !isFinite(qty)) return;
+
+        if (type === "Buy") {
+          totalBuyUSDT += qty;
+          totalBuyUAH += qty * price;
+        } else if (type === "Sell") {
+          totalSellUSDT += qty;
+          totalSellUAH += qty * price;
+        }
+      });
+
+      const avgBuyRate = totalBuyUSDT ? totalBuyUAH / totalBuyUSDT : 0;
+      const avgSellRate = totalSellUSDT ? totalSellUAH / totalSellUSDT : 0;
+
+      const circleUSDT = Math.min(totalBuyUSDT, totalSellUSDT);
+      const profit = circleUSDT * (avgSellRate - avgBuyRate);
+
+      let result = "";
+      result += `Куплено USDT: ${totalBuyUSDT.toFixed(2)}\n`;
+      result += `Продано USDT: ${totalSellUSDT.toFixed(2)}\n`;
+      result += `Средний курс покупки: ${avgBuyRate.toFixed(2)} грн\n`;
+      result += `Средний курс продажи: ${avgSellRate.toFixed(2)} грн\n`;
+      result += `Объём для полного круга: ${circleUSDT.toFixed(2)} USDT\n`;
+      result += `Прибыль: ${profit.toFixed(2)} грн\n`;
+
+      document.getElementById('output').textContent = result;
+    }
+  </script>
+</body>
+</html>
