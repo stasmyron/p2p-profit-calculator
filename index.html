@@ -5,138 +5,226 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>P2P Profit Binance</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    :root {
+      --bg-color: #f5f7fa;
+      --text-color: #222;
+      --primary-color: #1a73e8;
+      --secondary-color: #555;
+      --accent-color: #e8f0fe;
+      --button-bg: #1a73e8;
+      --button-text: #fff;
+      --input-bg: #fff;
+      --input-border: #ccc;
+      --table-bg: #fff;
+      --table-header-bg: #eaeaea;
+      --table-border: #ddd;
+    }
+
+    body.dark {
+      --bg-color: #121315;
+      --text-color: #d6b900;
+      --primary-color: #f3ba2f;
+      --secondary-color: #ccc;
+      --accent-color: #2a2b2f;
+      --button-bg: #d6b900;
+      --button-text: #121315;
+      --input-bg: #1e1f22;
+      --input-border: #444548;
+      --table-bg: #2a2b2f;
+      --table-header-bg: #3e3f43;
+      --table-border: #444548;
+    }
+
+    /* Общие стили */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
-      background: #121315;
-      color: #d6b900;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      transition: background-color 0.4s, color 0.4s;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
     header {
+      width: 100%;
+      max-width: 720px;
+      padding: 1.2rem 1rem;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 1.5rem 0;
-      flex-wrap: wrap;
+      background: var(--accent-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 0 0 12px 12px;
+      transition: background 0.4s;
     }
-    header svg {
-      display: block;
-      flex-shrink: 0;
-    }
+
     header h2 {
+      margin: 0;
       font-weight: 700;
       font-size: 1.8rem;
-      margin: 0;
-      text-shadow: 0 0 6px #d6b900cc;
+      color: var(--primary-color);
+      user-select: none;
+    }
+
+    .theme-toggle-btn {
+      background: var(--button-bg);
+      border: none;
+      padding: 8px 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--button-text);
+      transition: background-color 0.3s;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .theme-toggle-btn:hover {
+      background: var(--primary-color);
+      color: var(--button-text);
     }
 
     main {
       width: 95%;
       max-width: 720px;
-      background: #1e1f22;
+      background: var(--table-bg);
       border-radius: 12px;
-      padding: 20px 25px;
-      box-shadow: 0 0 12px #d6b900aa;
+      padding: 24px 28px;
+      margin: 2rem 0 3rem;
+      box-shadow: 0 0 14px var(--primary-color);
       display: flex;
       flex-direction: column;
       gap: 1rem;
       user-select: none;
+      transition: background-color 0.4s;
     }
 
     input[type="file"] {
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      background: #2a2b2f;
-      color: #d6b900;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1.8px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-color);
       font-weight: 600;
-      transition: background 0.3s;
+      cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s;
+      user-select: none;
     }
     input[type="file"]:hover {
-      background: #3e3f43;
+      border-color: var(--primary-color);
     }
 
     label {
-      display: block;
-      margin-bottom: 4px;
       font-weight: 600;
-      color: #f0d830;
+      color: var(--secondary-color);
+      margin-right: 6px;
+      user-select: none;
     }
-    select, input[type="date"] {
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: none;
-      background: #2a2b2f;
-      color: #d6b900;
+
+    input[type="date"], select {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-color);
       font-weight: 600;
-      transition: background 0.3s;
-      max-width: 200px;
       cursor: pointer;
+      transition: border-color 0.3s;
+      max-width: 180px;
     }
-    select:hover, input[type="date"]:hover {
-      background: #3e3f43;
+    input[type="date"]:hover, select:hover {
+      border-color: var(--primary-color);
     }
 
     button {
-      background: #d6b900;
+      background: var(--button-bg);
       border: none;
       border-radius: 8px;
-      color: #121315;
+      color: var(--button-text);
       font-weight: 700;
       padding: 10px 20px;
       cursor: pointer;
-      transition: background 0.3s;
-      user-select: none;
+      transition: background-color 0.3s;
       max-width: 200px;
-      margin-top: 8px;
-      align-self: flex-start;
+      user-select: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     button:hover {
-      background: #f0db30;
+      background: var(--primary-color);
     }
 
     #output {
       white-space: pre-line;
-      background: #121315;
-      padding: 12px 15px;
+      background: var(--input-bg);
+      padding: 14px 18px;
       border-radius: 8px;
-      box-shadow: inset 0 0 8px #d6b900cc;
+      box-shadow: inset 0 0 10px var(--primary-color);
       min-height: 90px;
       font-weight: 600;
       font-size: 1rem;
+      color: var(--text-color);
       overflow-x: auto;
+      transition: background-color 0.4s, color 0.4s;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background: #2a2b2f;
+      background: var(--table-bg);
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 0 10px #d6b90099;
+      box-shadow: 0 0 12px var(--primary-color);
+      transition: background-color 0.4s;
     }
     th, td {
-      padding: 10px 8px;
+      padding: 12px 10px;
       text-align: center;
       font-weight: 600;
-      color: #f9f8f0;
-      border-bottom: 1px solid #444548;
+      color: var(--text-color);
+      border-bottom: 1px solid var(--table-border);
+      user-select: none;
     }
     th {
-      background: #3e3f43;
-      color: #d6b900;
+      background: var(--table-header-bg);
+      color: var(--primary-color);
       text-transform: uppercase;
       font-size: 0.85rem;
     }
     tbody tr:last-child td {
       border-bottom: none;
+    }
+
+    #totalProfitDisplay {
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-align: center;
+      margin-top: 0.8rem;
+      color: var(--primary-color);
+      user-select: none;
+    }
+
+    #periodSummary {
+      margin-top: 1rem;
+      font-weight: 600;
+      white-space: pre-line;
+      color: var(--text-color);
+      user-select: none;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 12px;
     }
 
     /* Responsive */
@@ -146,10 +234,10 @@
         text-align: center;
       }
       main {
-        padding: 15px 15px;
+        padding: 18px 20px;
       }
       table, th, td {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
       }
       input[type="file"], select, input[type="date"], button {
         max-width: 100%;
@@ -160,138 +248,164 @@
 </head>
 <body>
   <header>
-    <svg width="40" height="40" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Binance Logo" role="img">
-      <path fill="#F3BA2F" d="M128 0L256 128L128 256L0 128L128 0Z"/>
-      <path fill="#121315" d="M128 45.333L171.2 88.533L128 131.733L84.8 88.533L128 45.333Z"/>
-      <path fill="#121315" d="M128 124.267L163.733 159L128 193.733L92.267 159L128 124.267Z"/>
-    </svg>
     <h2>P2P Profit Binance</h2>
+    <button class="theme-toggle-btn" aria-label="Переключить тему">🌙 Тёмная тема</button>
   </header>
 
   <main>
-    <input type="file" id="fileInput" accept=".csv" />
+    <input type="file" id="fileInput" accept=".csv" aria-label="Загрузить CSV файл" />
     
-    <div style="display:flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px;">
+    <div class="controls">
       <label for="dateFromInput">С:</label>
-      <input type="date" id="dateFromInput" />
-      
+      <input type="date" id="dateFromInput" aria-label="Дата с" />
+
       <label for="dateToInput">По:</label>
-      <input type="date" id="dateToInput" />
-      
-      <button id="resetBtn" style="margin-left:auto;">Сбросить статистику</button>
+      <input type="date" id="dateToInput" aria-label="Дата по" />
+
+      <button id="resetBtn">Сбросить статистику</button>
     </div>
-    
+
     <pre id="output">Загрузите CSV-файл для анализа.</pre>
-    
-    <div id="totalProfitDisplay" style="font-weight:700; font-size:1.1rem; margin-top: 0.8rem; text-align:center;">
-      Общая прибыль: 0 грн
-    </div>
+
+    <div id="totalProfitDisplay">Общая прибыль: 0 грн</div>
 
     <div style="margin-top: 20px; overflow-x:auto;">
       <table id="dailyTable" aria-label="Статистика по дням">
         <thead>
           <tr><th>Дата</th><th>Прибыль (грн)</th></tr>
         </thead>
-        <tbody>
-          <!-- Данные по дням появятся здесь -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
 
-    <pre id="periodSummary" style="margin-top: 1rem; font-weight:600; white-space: pre-line;">
-Выберите период для просмотра статистики.
-    </pre>
+    <pre id="periodSummary">Выберите период для просмотра статистики.</pre>
   </main>
 
   <script>
-    const fileInput = document.getElementById("fileInput");
-    const dateFromInput = document.getElementById("dateFromInput");
-    const dateToInput = document.getElementById("dateToInput");
-    const output = document.getElementById("output");
-    const dailyTableBody = document.querySelector("#dailyTable tbody");
-    const periodSummary = document.getElementById("periodSummary");
-    const totalProfitDisplay = document.getElementById("totalProfitDisplay");
-    const resetBtn = document.getElementById("resetBtn");
+    const body = document.body;
+    const themeToggleBtn = document.querySelector('.theme-toggle-btn');
+    const fileInput = document.getElementById('fileInput');
+    const dateFromInput = document.getElementById('dateFromInput');
+    const dateToInput = document.getElementById('dateToInput');
+    const output = document.getElementById('output');
+    const dailyTableBody = document.querySelector('#dailyTable tbody');
+    const periodSummary = document.getElementById('periodSummary');
+    const totalProfitDisplay = document.getElementById('totalProfitDisplay');
+    const resetBtn = document.getElementById('resetBtn');
 
     let dailyProfit = {};
 
-    fileInput.addEventListener("change", handleFile);
-    dateFromInput.addEventListener("change", updateFilteredView);
-    dateToInput.addEventListener("change", updateFilteredView);
-    resetBtn.addEventListener("click", resetStats);
+    // Инициализация темы из localStorage или по умолчанию светлая
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        body.classList.add('dark');
+        themeToggleBtn.textContent = '☀️ Светлая тема';
+      } else {
+        body.classList.remove('dark');
+        themeToggleBtn.textContent = '🌙 Тёмная тема';
+      }
+    }
 
-    function handleFile(event) {
-      const file = event.target.files[0];
+    themeToggleBtn.addEventListener('click', () => {
+      if (body.classList.contains('dark')) {
+        body.classList.remove('dark');
+        themeToggleBtn.textContent = '🌙 Тёмная тема';
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.add('dark');
+        themeToggleBtn.textContent = '☀️ Светлая тема';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Загрузка и обработка CSV файла
+    fileInput.addEventListener('change', handleFile);
+
+    function handleFile(e) {
+      const file = e.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
+      reader.onload = (event) => {
+        const text = event.target.result;
         processCSV(text);
+        // Скрываем input после успешной загрузки файла
+        fileInput.style.display = 'none';
       };
       reader.readAsText(file);
     }
 
+    // Парсим CSV, считаем статистику по дням
     function processCSV(csvText) {
-      const rows = csvText.trim().split(/\r?\n/).map(r => r.split(','));
+      const rows = csvText.trim().split(/\r?\n/).map(row => row.split(','));
       const header = rows[0].map(h => h.trim());
       const data = rows.slice(1).filter(r => r.length === header.length);
 
-      // Определяем индекс нужных колонок, с учётом вариаций
-      const orderTypeIdx = header.indexOf("Order Type");
-      const priceIdx = header.indexOf("Price");
-      const quantityIdx = header.indexOf("Quantity");
-      let dateIdx = header.indexOf("Match time(UTC)");
-      if (dateIdx === -1) dateIdx = header.indexOf("Created Time");
-      const statusIdx = header.indexOf("Status");
+      // Индексы нужных колонок
+      const orderTypeIdx = header.indexOf('Order Type');
+      const priceIdx = header.indexOf('Price');
+      const quantityIdx = header.indexOf('Quantity');
+      let dateIdx = header.indexOf('Match time(UTC)');
+      if (dateIdx === -1) dateIdx = header.indexOf('Created Time');
+      const statusIdx = header.indexOf('Status');
 
       if ([orderTypeIdx, priceIdx, quantityIdx, dateIdx, statusIdx].some(i => i === -1)) {
-        output.textContent = "Ошибка: не найдены необходимые колонки в CSV.";
+        output.textContent = 'Ошибка: не найдены необходимые колонки в CSV.';
         return;
       }
 
-      // Обрабатываем и аккумулируем по дням
+      dailyProfit = {}; // очищаем предыдущие данные
+
       for (const row of data) {
-        if (row[statusIdx].trim() !== "Completed") continue;
+        if (row[statusIdx].trim() !== 'Completed') continue;
 
         const type = row[orderTypeIdx].trim();
         const price = parseFloat(row[priceIdx]);
         const qty = parseFloat(row[quantityIdx]);
         let dateStr = row[dateIdx].trim();
 
-        // Обработка даты: отрезаем время, оставляем только дату в формате YYYY-MM-DD
         if (dateStr.length > 10) dateStr = dateStr.substring(0, 10);
 
         if (!dailyProfit[dateStr]) {
-          dailyProfit[dateStr] = {
-            buyUah: 0,
-            buyQty: 0,
-            sellUah: 0,
-            sellQty: 0,
-          };
+          dailyProfit[dateStr] = { buyUah: 0, buyQty: 0, sellUah: 0, sellQty: 0 };
         }
 
-        if (type === "Buy") {
+        if (type === 'Buy') {
           dailyProfit[dateStr].buyQty += qty;
           dailyProfit[dateStr].buyUah += qty * price;
-        } else if (type === "Sell") {
+        } else if (type === 'Sell') {
           dailyProfit[dateStr].sellQty += qty;
           dailyProfit[dateStr].sellUah += qty * price;
         }
       }
 
       // Сохраняем в localStorage
-      localStorage.setItem("dailyProfit", JSON.stringify(dailyProfit));
-      output.textContent = "Файл успешно обработан.";
+      localStorage.setItem('dailyProfit', JSON.stringify(dailyProfit));
+      output.textContent = 'Файл успешно обработан.';
+      initDatesFromData();
       updateFilteredView();
     }
 
+    // Устанавливаем даты выбора на первый и последний день из данных
+    function initDatesFromData() {
+      const dates = Object.keys(dailyProfit).sort();
+      if (dates.length > 0) {
+        dateFromInput.value = dates[0];
+        dateToInput.value = dates[dates.length - 1];
+      } else {
+        dateFromInput.value = '';
+        dateToInput.value = '';
+      }
+    }
+
+    // Обновляем таблицу и статистику по выбранному периоду
     function updateFilteredView() {
-      dailyTableBody.innerHTML = "";
-      periodSummary.textContent = "Загрузка...";
-      
-      const from = dateFromInput.value || "0000-00-00";
-      const to = dateToInput.value || "9999-99-99";
+      dailyTableBody.innerHTML = '';
+      periodSummary.textContent = 'Загрузка...';
+
+      const from = dateFromInput.value || '0000-00-00';
+      const to = dateToInput.value || '9999-99-99';
 
       const filteredDates = Object.keys(dailyProfit)
         .filter(d => d >= from && d <= to)
@@ -313,10 +427,10 @@
         totalSellQty += day.sellQty;
         totalProfit += profit;
 
-        const tr = document.createElement("tr");
-        const tdDate = document.createElement("td");
+        const tr = document.createElement('tr');
+        const tdDate = document.createElement('td');
         tdDate.textContent = date;
-        const tdProfit = document.createElement("td");
+        const tdProfit = document.createElement('td');
         tdProfit.textContent = profit.toFixed(2);
         tr.appendChild(tdDate);
         tr.appendChild(tdProfit);
@@ -341,31 +455,36 @@
       output.textContent = `Обработка завершена. Выбран период с ${from} по ${to}.`;
     }
 
-    function resetStats() {
-      if (confirm("Вы уверены, что хотите сбросить всю статистику?")) {
+    // Сброс статистики
+    resetBtn.addEventListener('click', () => {
+      if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
         dailyProfit = {};
-        localStorage.removeItem("dailyProfit");
-        dailyTableBody.innerHTML = "";
-        periodSummary.textContent = "Выберите период для просмотра статистики.";
-        totalProfitDisplay.textContent = "Общая прибыль: 0 грн";
-        output.textContent = "Статистика сброшена. Загрузите CSV-файл.";
-        dateFromInput.value = "";
-        dateToInput.value = "";
-        fileInput.value = "";
+        localStorage.removeItem('dailyProfit');
+        dailyTableBody.innerHTML = '';
+        periodSummary.textContent = 'Выберите период для просмотра статистики.';
+        totalProfitDisplay.textContent = 'Общая прибыль: 0 грн';
+        output.textContent = 'Статистика сброшена. Загрузите CSV-файл для анализа.';
+        dateFromInput.value = '';
+        dateToInput.value = '';
+        fileInput.value = '';
+        fileInput.style.display = 'block'; // Показываем input заново
       }
-    }
+    });
 
-    // Загрузка данных из localStorage при загрузке страницы (если есть)
+    // Обновляем данные при изменении дат
+    dateFromInput.addEventListener('change', updateFilteredView);
+    dateToInput.addEventListener('change', updateFilteredView);
+
+    // При загрузке страницы и если есть сохранённые данные — загружаем их
     window.addEventListener('load', () => {
-      const saved = localStorage.getItem("dailyProfit");
-      if (saved) {
-        dailyProfit = JSON.parse(saved);
-        const dates = Object.keys(dailyProfit).sort();
-        if (dates.length > 0) {
-          dateFromInput.value = dates[0];
-          dateToInput.value = dates[dates.length - 1];
-          updateFilteredView();
-        }
+      initTheme();
+
+      const savedProfit = localStorage.getItem('dailyProfit');
+      if (savedProfit) {
+        dailyProfit = JSON.parse(savedProfit);
+        fileInput.style.display = 'none';
+        initDatesFromData();
+        updateFilteredView();
       }
     });
   </script>
