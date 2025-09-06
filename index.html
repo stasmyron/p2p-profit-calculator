@@ -1,395 +1,204 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>P2P Profit Binance</title>
-  <style>
-    :root {
-      --bg-color: #f5f7fa;
-      --text-color: #222;
-      --primary-color: #1a73e8;
-      --secondary-color: #555;
-      --accent-color: #e8f0fe;
-      --button-bg: #1a73e8;
-      --button-text: #fff;
-      --input-bg: #fff;
-      --input-border: #ccc;
-      --table-bg: #fff;
-      --table-header-bg: #eaeaea;
-      --table-border: #ddd;
-    }
-
-    body.dark {
-      --bg-color: #121315;
-      --text-color: #d6b900;
-      --primary-color: #f3ba2f;
-      --secondary-color: #ccc;
-      --accent-color: #2a2b2f;
-      --button-bg: #d6b900;
-      --button-text: #121315;
-      --input-bg: #1e1f22;
-      --input-border: #444548;
-      --table-bg: #2a2b2f;
-      --table-header-bg: #3e3f43;
-      --table-border: #444548;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      transition: background-color 0.4s, color 0.4s;
-    }
-
-    header {
-      width: 100%;
-      max-width: 720px;
-      padding: 1.2rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--accent-color);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border-radius: 0 0 12px 12px;
-      transition: background 0.4s;
-    }
-
-    header h2 {
-      margin: 0;
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: var(--primary-color);
-      user-select: none;
-    }
-
-    .theme-toggle-btn {
-      background: var(--button-bg);
-      border: none;
-      padding: 8px 14px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      color: var(--button-text);
-      transition: background-color 0.3s;
-      user-select: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-    .theme-toggle-btn:hover { background: var(--primary-color); }
-
-    main {
-      width: 95%;
-      max-width: 720px;
-      background: var(--table-bg);
-      border-radius: 12px;
-      padding: 24px 28px;
-      margin: 2rem 0 3rem;
-      box-shadow: 0 0 14px var(--primary-color);
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      user-select: none;
-    }
-
-    input[type="file"] {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1.8px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--text-color);
-      font-weight: 600;
-      cursor: pointer;
-    }
-    input[type="file"]:hover { border-color: var(--primary-color); }
-
-    label { font-weight: 600; color: var(--secondary-color); margin-right: 6px; }
-
-    input[type="date"], select {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1.5px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--text-color);
-      font-weight: 600;
-      max-width: 180px;
-    }
-    input[type="date"]:hover, select:hover { border-color: var(--primary-color); }
-
-    button {
-      background: var(--button-bg);
-      border: none;
-      border-radius: 8px;
-      color: var(--button-text);
-      font-weight: 700;
-      padding: 10px 20px;
-      cursor: pointer;
-      max-width: 200px;
-      user-select: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-    button:hover { background: var(--primary-color); }
-
-    #output {
-      white-space: pre-line;
-      background: var(--input-bg);
-      padding: 14px 18px;
-      border-radius: 8px;
-      box-shadow: inset 0 0 10px var(--primary-color);
-      min-height: 90px;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--text-color);
-      overflow-x: auto;
-    }
-
-    #totalProfitDisplay {
-      font-weight: 700;
-      font-size: 1.15rem;
-      text-align: center;
-      margin-top: 0.8rem;
-      color: var(--primary-color);
-    }
-
-    #periodSummary {
-      margin-top: 1rem;
-      font-weight: 600;
-      white-space: pre-line;
-      color: var(--text-color);
-    }
-
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-top: 12px;
-    }
-
-    @media (max-width: 480px) {
-      header h2 { font-size: 1.4rem; text-align: center; }
-      main { padding: 18px 20px; }
-      input[type="file"], select, input[type="date"], button {
-        max-width: 100%;
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P2P Profit Binance - Платный доступ</title>
+<style>
+/* Стили (тот же набор, что раньше) */
+:root{--bg-color:#f5f7fa;--text-color:#222;--primary-color:#1a73e8;--secondary-color:#555;--accent-color:#e8f0fe;--button-bg:#1a73e8;--button-text:#fff;--input-bg:#fff;--input-border:#ccc;--table-bg:#fff;--table-header-bg:#eaeaea;--table-border:#ddd;}
+body.dark{--bg-color:#121315;--text-color:#d6b900;--primary-color:#f3ba2f;--secondary-color:#ccc;--accent-color:#2a2b2f;--button-bg:#d6b900;--button-text:#121315;--input-bg:#1e1f22;--input-border:#444548;--table-bg:#2a2b2f;--table-header-bg:#3e3f43;--table-border:#444548;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background-color:var(--bg-color);color:var(--text-color);display:flex;flex-direction:column;align-items:center;min-height:100vh;transition:background-color 0.4s,color 0.4s;}
+header{width:100%;max-width:720px;padding:1.2rem 1rem;display:flex;justify-content:space-between;align-items:center;background:var(--accent-color);box-shadow:0 2px 8px rgba(0,0,0,0.1);border-radius:0 0 12px 12px;transition:background 0.4s;}
+header h2{margin:0;font-weight:700;font-size:1.8rem;color:var(--primary-color);user-select:none;}
+.theme-toggle-btn{background:var(--button-bg);border:none;padding:8px 14px;font-weight:600;border-radius:8px;cursor:pointer;color:var(--button-text);transition:background-color 0.3s;user-select:none;box-shadow:0 2px 6px rgba(0,0,0,0.2);}
+.theme-toggle-btn:hover{background:var(--primary-color);}
+main{width:95%;max-width:720px;background:var(--table-bg);border-radius:12px;padding:24px 28px;margin:2rem 0 3rem;box-shadow:0 0 14px var(--primary-color);display:flex;flex-direction:column;gap:1rem;user-select:none;}
+input[type="file"],input[type="text"]{padding:12px;border-radius:8px;border:1.8px solid var(--input-border);background:var(--input-bg);color:var(--text-color);font-weight:600;cursor:pointer;width:100%;margin-top:6px;}
+input[type="file"]:hover,input[type="text"]:hover{border-color:var(--primary-color);}
+label{font-weight:600;color:var(--secondary-color);margin-right:6px;}
+input[type="date"],select,button{padding:8px 14px;border-radius:8px;border:1.5px solid var(--input-border);background:var(--input-bg);color:var(--text-color);font-weight:600;max-width:180px;cursor:pointer;}
+input[type="date"]:hover,select:hover,button:hover{border-color:var(--primary-color);}
+#output,#periodSummary{white-space:pre-line;background:var(--input-bg);padding:14px 18px;border-radius:8px;box-shadow:inset 0 0 10px var(--primary-color);min-height:90px;font-weight:600;font-size:1rem;color:var(--text-color);overflow-x:auto;}
+#totalProfitDisplay{font-weight:700;font-size:1.15rem;text-align:center;margin-top:0.8rem;color:var(--primary-color);}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px;}
+#accessBlocked,#adminBlock{text-align:center;}
+#accessMessage{color:red;font-weight:700;margin-top:8px;}
+#adminAccessBtn{position:fixed;top:10px;right:10px;z-index:9999;padding:8px 12px;display:none;}
+</style>
 </head>
 <body>
-  <header>
-    <h2>P2P Profit Binance</h2>
-    <button class="theme-toggle-btn">🌙 Тёмная тема</button>
-  </header>
+<header>
+<h2>P2P Profit Binance</h2>
+<button class="theme-toggle-btn">🌙 Тёмная тема</button>
+</header>
 
-  <main>
-    <input type="file" id="fileInput" accept=".csv" />
-    
-    <div class="controls">
-      <label for="dateFromInput">С:</label>
-      <input type="date" id="dateFromInput" />
+<main>
+<!-- Доступ -->
+<div id="accessBlocked">
+<p>Доступ к боту закрыт. Чтобы получить доступ:</p>
+<p>💳 Оплатите на карту: 1234 5678 9012 3456</p>
+<p>💰 Или на крипто-кошелек: 0xABCDEF123456...</p>
+<label>Введите токен доступа:</label>
+<input type="text" id="accessTokenInput" placeholder="Введите токен">
+<button id="accessTokenBtn">Подтвердить</button>
+<p id="accessMessage"></p>
+</div>
 
-      <label for="dateToInput">По:</label>
-      <input type="date" id="dateToInput" />
+<!-- Основной бот -->
+<div id="mainBot" style="display:none;">
+<input type="file" id="fileInput" accept=".csv">
+<div class="controls">
+<label for="dateFromInput">С:</label>
+<input type="date" id="dateFromInput">
+<label for="dateToInput">По:</label>
+<input type="date" id="dateToInput">
+<button id="resetBtn">Сбросить статистику</button>
+</div>
+<pre id="output">Загрузите CSV-файл для анализа.</pre>
+<div id="totalProfitDisplay">Общая прибыль: 0 грн</div>
+<pre id="periodSummary">Выберите период для просмотра статистики.</pre>
+</div>
 
-      <button id="resetBtn">Сбросить статистику</button>
-    </div>
+<!-- Админка -->
+<div id="adminBlock" style="display:none;margin-top:20px;text-align:center;">
+<h3>Админка</h3>
+<button id="generateTokenBtn">Сгенерировать новый токен</button>
+<p>Новый токен: <span id="newTokenOutput">---</span></p>
+<hr>
+<label>Сменить пароль администратора:</label>
+<input type="text" id="newAdminPasswordInput" placeholder="Новый пароль">
+<button id="changeAdminPasswordBtn">Сменить пароль</button>
+<p id="adminPassMessage" style="color:green;font-weight:700;"></p>
+</div>
 
-    <pre id="output">Загрузите CSV-файл для анализа.</pre>
+<!-- Кнопка админки -->
+<button id="adminAccessBtn">Админка</button>
+</main>
 
-    <div id="totalProfitDisplay">Общая прибыль: 0 грн</div>
+<script>
+const body=document.body;
+const themeToggleBtn=document.querySelector('.theme-toggle-btn');
+const fileInput=document.getElementById('fileInput');
+const dateFromInput=document.getElementById('dateFromInput');
+const dateToInput=document.getElementById('dateToInput');
+const output=document.getElementById('output');
+const periodSummary=document.getElementById('periodSummary');
+const totalProfitDisplay=document.getElementById('totalProfitDisplay');
+const resetBtn=document.getElementById('resetBtn');
 
-    <pre id="periodSummary">Выберите период для просмотра статистики.</pre>
-  </main>
+const accessTokenInput=document.getElementById('accessTokenInput');
+const accessTokenBtn=document.getElementById('accessTokenBtn');
+const accessMessage=document.getElementById('accessMessage');
+const accessBlocked=document.getElementById('accessBlocked');
+const mainBot=document.getElementById('mainBot');
 
-  <script>
-    const body = document.body;
-    const themeToggleBtn = document.querySelector('.theme-toggle-btn');
-    const fileInput = document.getElementById('fileInput');
-    const dateFromInput = document.getElementById('dateFromInput');
-    const dateToInput = document.getElementById('dateToInput');
-    const output = document.getElementById('output');
-    const periodSummary = document.getElementById('periodSummary');
-    const totalProfitDisplay = document.getElementById('totalProfitDisplay');
-    const resetBtn = document.getElementById('resetBtn');
+const adminBlock=document.getElementById('adminBlock');
+const generateTokenBtn=document.getElementById('generateTokenBtn');
+const newTokenOutput=document.getElementById('newTokenOutput');
+const adminAccessBtn=document.getElementById('adminAccessBtn');
+const newAdminPasswordInput=document.getElementById('newAdminPasswordInput');
+const changeAdminPasswordBtn=document.getElementById('changeAdminPasswordBtn');
+const adminPassMessage=document.getElementById('adminPassMessage');
 
-    let trades = [];
+// ---- Админ пароль ----
+let ADMIN_PASSWORD = localStorage.getItem('ADMIN_PASSWORD') || "supersecret";
 
-    // Тема
-    function initTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        body.classList.add('dark');
-        themeToggleBtn.textContent = '☀️ Светлая тема';
-      } else {
-        body.classList.remove('dark');
-        themeToggleBtn.textContent = '🌙 Тёмная тема';
-      }
-    }
+// ---- Тема ----
+function initTheme(){ const savedTheme=localStorage.getItem('theme'); if(savedTheme==='dark'){body.classList.add('dark');themeToggleBtn.textContent='☀️ Светлая тема';}else{body.classList.remove('dark');themeToggleBtn.textContent='🌙 Тёмная тема';}}
+themeToggleBtn.addEventListener('click',()=>{if(body.classList.contains('dark')){body.classList.remove('dark');themeToggleBtn.textContent='🌙 Тёмная тема';localStorage.setItem('theme','light');}else{body.classList.add('dark');themeToggleBtn.textContent='☀️ Светлая тема';localStorage.setItem('theme','dark');}});
 
-    themeToggleBtn.addEventListener('click', () => {
-      if (body.classList.contains('dark')) {
-        body.classList.remove('dark');
-        themeToggleBtn.textContent = '🌙 Тёмная тема';
-        localStorage.setItem('theme', 'light');
-      } else {
-        body.classList.add('dark');
-        themeToggleBtn.textContent = '☀️ Светлая тема';
-        localStorage.setItem('theme', 'dark');
-      }
-    });
+// ---- Доступ ----
+let trades=[];
+let activeTokens = JSON.parse(localStorage.getItem('activeTokens')) || [];
 
-    // Загрузка файла
-    fileInput.addEventListener('change', handleFile);
+window.addEventListener('load',()=>{
+  const passCheck=prompt("Введите секретный код для показа админки:");
+  if(passCheck===ADMIN_PASSWORD){adminAccessBtn.style.display="block";}
+  const savedToken=localStorage.getItem('userAccess');
+  if(savedToken && activeTokens.find(t=>t.token===savedToken && (new Date()-new Date(t.created))/(1000*60*60*24)<=30)){
+    accessBlocked.style.display='none'; mainBot.style.display='block';
+  }
+  const saved=localStorage.getItem('trades');
+  if(saved){trades=JSON.parse(saved); fileInput.style.display='none'; initDatesFromData(); updateFilteredView();}
+});
 
-    function handleFile(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+adminAccessBtn.addEventListener('click',()=>{
+  const password=prompt("Введите пароль администратора для генерации токена:");
+  if(password===ADMIN_PASSWORD){adminBlock.style.display='block';}else{alert("Неверный пароль!");}
+});
 
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const text = event.target.result;
-        processCSV(text);
-        fileInput.style.display = 'none';
-      };
-      reader.readAsText(file);
-    }
+// ---- Генерация токена ----
+generateTokenBtn.addEventListener('click',()=>{
+  const newToken = Array.from({length:12}, () =>
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"[Math.floor(Math.random()*62)]
+  ).join('');
+  const created = new Date().toISOString().substring(0,10);
+  activeTokens.push({token:newToken, created});
+  localStorage.setItem('activeTokens',JSON.stringify(activeTokens));
+  newTokenOutput.textContent=newToken;
+  alert(`Новый токен сгенерирован! Срок действия: 30 дней`);
+});
 
-    // Парсинг CSV
-    function processCSV(csvText) {
-      const rows = csvText.trim().split(/\r?\n/).map(r => r.split(','));
-      const header = rows[0].map(h => h.trim());
-      const data = rows.slice(1).filter(r => r.length === header.length);
+// ---- Смена пароля ----
+changeAdminPasswordBtn.addEventListener('click',()=>{
+  const newPass = newAdminPasswordInput.value.trim();
+  if(newPass.length<4){adminPassMessage.style.color="red"; adminPassMessage.textContent="Пароль слишком короткий!"; return;}
+  ADMIN_PASSWORD=newPass;
+  localStorage.setItem('ADMIN_PASSWORD',newPass);
+  adminPassMessage.style.color="green";
+  adminPassMessage.textContent="Пароль успешно изменён!";
+});
 
-      const orderTypeIdx = header.indexOf('Order Type');
-      const priceIdx = header.indexOf('Price');
-      const quantityIdx = header.indexOf('Quantity');
-      let dateIdx = header.indexOf('Match time(UTC)');
-      if (dateIdx === -1) dateIdx = header.indexOf('Created Time');
-      const statusIdx = header.indexOf('Status');
-      const feeIdx = header.indexOf('Maker Fee');
+// ---- Проверка токена пользователя ----
+accessTokenBtn.addEventListener('click',()=>{
+  const tokenInput = accessTokenInput.value.trim();
+  const now = new Date();
+  const tokenObj = activeTokens.find(t=>t.token===tokenInput);
+  if(tokenObj){
+    const createdDate = new Date(tokenObj.created);
+    const diffDays = Math.floor((now-createdDate)/(1000*60*60*24));
+    if(diffDays<=30){
+      accessBlocked.style.display='none';
+      mainBot.style.display='block';
+      localStorage.setItem('userAccess',tokenInput);
+      accessMessage.textContent='';
+    } else accessMessage.textContent="Срок действия токена истёк. Пожалуйста, получите новый токен.";
+  } else accessMessage.textContent="Неверный токен или подписка не активирована.";
+});
 
-      if ([orderTypeIdx, priceIdx, quantityIdx, dateIdx, statusIdx, feeIdx].some(i => i === -1)) {
-        output.textContent = 'Ошибка: не найдены необходимые колонки в CSV.';
-        return;
-      }
+// ---- CSV / прибыль / комиссия ----
+fileInput.addEventListener('change',handleFile);
+function handleFile(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=(event)=>{processCSV(event.target.result);fileInput.style.display='none';};reader.readAsText(file);}
+function processCSV(csvText){
+  const rows=csvText.trim().split(/\r?\n/).map(r=>r.split(','));
+  const header=rows[0].map(h=>h.trim()); const data=rows.slice(1).filter(r=>r.length===header.length);
+  const orderTypeIdx=header.indexOf('Order Type'); const priceIdx=header.indexOf('Price'); const quantityIdx=header.indexOf('Quantity');
+  let dateIdx=header.indexOf('Match time(UTC)'); if(dateIdx===-1) dateIdx=header.indexOf('Created Time');
+  const statusIdx=header.indexOf('Status'); const feeIdx=header.indexOf('Maker Fee');
+  if([orderTypeIdx,priceIdx,quantityIdx,dateIdx,statusIdx,feeIdx].some(i=>i===-1)){output.textContent='Ошибка: не найдены необходимые колонки в CSV.'; return;}
+  trades=[]; for(const row of data){if(row[statusIdx].trim()!=='Completed') continue; trades.push({type:row[orderTypeIdx].trim(),price:parseFloat(row[priceIdx]),qty:parseFloat(row[quantityIdx]),date:row[dateIdx].trim().substring(0,10),fee:parseFloat(row[feeIdx]||0)});}
+  localStorage.setItem('trades',JSON.stringify(trades)); output.textContent='Файл успешно обработан.'; initDatesFromData(); updateFilteredView();
+}
+function initDatesFromData(){const dates=trades.map(t=>t.date).sort(); if(dates.length>0){dateFromInput.value=dates[0]; dateToInput.value=dates[dates.length-1];} else{dateFromInput.value=''; dateToInput.value='';}}
+function updateFilteredView(){periodSummary.textContent='Загрузка...'; const from=dateFromInput.value||'0000-00-00'; const to=dateToInput.value||'9999-99-99'; const filtered=trades.filter(t=>t.date>=from && t.date<=to);
+let buyQty=0,buyUah=0,sellQty=0,sellUah=0,totalFeeUSD=0; filtered.forEach(t=>{if(t.type==='Buy'){buyQty+=t.qty;buyUah+=t.qty*t.price;}else if(t.type==='Sell'){sellQty+=t.qty;sellUah+=t.qty*t.price;} if(t.fee) totalFeeUSD+=parseFloat(t.fee);});
+const avgBuy=buyQty?buyUah/buyQty:0; const avgSell=sellQty?sellUah/sellQty:0; const circle=Math.min(buyQty,sellQty); const totalProfit=circle*(avgSell-avgBuy);
+const periodText=`Куплено USDT: ${buyQty.toFixed(2)}\nПродано USDT: ${sellQty.toFixed(2)}\nСредний курс покупки: ${avgBuy.toFixed(2)} грн\nСредний курс продажи: ${avgSell.toFixed(2)} грн\nОбъём для полного круга: ${circle.toFixed(2)} USDT\nОбщая комиссия: ${totalFeeUSD.toFixed(2)} $ \nПрибыль за период: ${totalProfit.toFixed(2)} грн`;
+periodSummary.textContent=periodText; totalProfitDisplay.textContent=`Общая прибыль: ${totalProfit.toFixed(2)} грн`; output.textContent=`Обработка завершена. Выбран период с ${from} по ${to}.`;}
 
-      trades = [];
+// ---- Сброс ----
+resetBtn.addEventListener('click',()=>{
+  if(confirm('Вы уверены, что хотите сбросить всю статистику?')){
+    trades=[]; localStorage.removeItem('trades'); periodSummary.textContent='Выберите период для просмотра статистики.';
+    totalProfitDisplay.textContent='Общая прибыль: 0 грн'; output.textContent='Статистика сброшена. Загрузите CSV-файл для анализа.';
+    dateFromInput.value=''; dateToInput.value=''; fileInput.value=''; fileInput.style.display='block';
+  }
+});
 
-      for (const row of data) {
-        if (row[statusIdx].trim() !== 'Completed') continue;
-        trades.push({
-          type: row[orderTypeIdx].trim(),
-          price: parseFloat(row[priceIdx]),
-          qty: parseFloat(row[quantityIdx]),
-          date: row[dateIdx].trim().substring(0, 10),
-          fee: parseFloat(row[feeIdx] || 0) // комиссия в $
-        });
-      }
-
-      localStorage.setItem('trades', JSON.stringify(trades));
-      output.textContent = 'Файл успешно обработан.';
-      initDatesFromData();
-      updateFilteredView();
-    }
-
-    // Устанавливаем границы дат
-    function initDatesFromData() {
-      const dates = trades.map(t => t.date).sort();
-      if (dates.length > 0) {
-        dateFromInput.value = dates[0];
-        dateToInput.value = dates[dates.length - 1];
-      } else {
-        dateFromInput.value = '';
-        dateToInput.value = '';
-      }
-    }
-
-    // Подсчёт прибыли с учётом комиссии
-    function updateFilteredView() {
-      periodSummary.textContent = 'Загрузка...';
-
-      const from = dateFromInput.value || '0000-00-00';
-      const to = dateToInput.value || '9999-99-99';
-
-      const filtered = trades.filter(t => t.date >= from && t.date <= to);
-
-      let buyQty = 0, buyUah = 0;
-      let sellQty = 0, sellUah = 0;
-      let totalFeeUSD = 0;
-
-      filtered.forEach(t => {
-        if (t.type === 'Buy') {
-          buyQty += t.qty;
-          buyUah += t.qty * t.price;
-        } else if (t.type === 'Sell') {
-          sellQty += t.qty;
-          sellUah += t.qty * t.price;
-        }
-
-        if (t.fee) totalFeeUSD += parseFloat(t.fee);
-      });
-
-      const avgBuy = buyQty ? buyUah / buyQty : 0;
-      const avgSell = sellQty ? sellUah / sellQty : 0;
-      const circle = Math.min(buyQty, sellQty);
-      const grossProfit = circle * (avgSell - avgBuy);
-
-      // Средний курс для перевода комиссии в грн
-      const avgRate = (avgBuy + avgSell) / 2;
-      const feeUah = totalFeeUSD * avgRate;
-
-      const netProfit = grossProfit - feeUah;
-
-      const periodText =
-        `Куплено USDT: ${buyQty.toFixed(2)}\n` +
-        `Продано USDT: ${sellQty.toFixed(2)}\n` +
-        `Средний курс покупки: ${avgBuy.toFixed(2)} грн\n` +
-        `Средний курс продажи: ${avgSell.toFixed(2)} грн\n` +
-        `Объём для полного круга: ${circle.toFixed(2)} USDT\n` +
-        `Комиссия: ${feeUah.toFixed(2)} грн\n` +
-        `Прибыль за период: ${netProfit.toFixed(2)} грн`;
-
-      periodSummary.textContent = periodText;
-      totalProfitDisplay.textContent = `Общая прибыль: ${netProfit.toFixed(2)} грн`;
-
-      output.textContent = `Обработка завершена. Выбран период с ${from} по ${to}.`;
-    }
-
-    // Сброс
-    resetBtn.addEventListener('click', () => {
-      if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
-        trades = [];
-        localStorage.removeItem('trades');
-        periodSummary.textContent = 'Выберите период для просмотра статистики.';
-        totalProfitDisplay.textContent = 'Общая прибыль: 0 грн';
-        output.textContent = 'Статистика сброшена. Загрузите CSV-файл для анализа.';
-        dateFromInput.value = '';
-        dateToInput.value = '';
-        fileInput.value = '';
-        fileInput.style.display = 'block';
-      }
-    });
-
-    dateFromInput.addEventListener('change', updateFilteredView);
-    dateToInput.addEventListener('change', updateFilteredView);
-
-    window.addEventListener('load', () => {
-      initTheme();
-      const saved = localStorage.getItem('trades');
-      if (saved) {
-        trades = JSON.parse(saved);
-        fileInput.style.display = 'none';
-        initDatesFromData();
-        updateFilteredView();
-      }
-    });
-  </script>
+dateFromInput.addEventListener('change',updateFilteredView);
+dateToInput.addEventListener('change',updateFilteredView);
+</script>
 </body>
 </html>
